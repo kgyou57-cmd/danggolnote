@@ -167,6 +167,10 @@ textarea{min-height:72px;resize:vertical}
   .row{flex-wrap:wrap}.row .acts{width:100%;justify-content:flex-start;padding-left:68px}
   .row .acts:has(> :only-child){width:auto;padding-left:0}
 }
+/* 휴대폰에서 입력칸을 누를 때 화면이 확대되지 않게: 입력 글자 16px 이상 */
+input,select,textarea,.input{font-size:16px!important}
+.table input{font-size:15px!important}
+@media (max-width:860px){.table input{font-size:16px!important}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
