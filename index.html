@@ -303,6 +303,31 @@ input,select,textarea,.input{font-size:16px!important}
           <div class="wrapx"><table class="table mtab"><thead><tr><th>메뉴</th><th>판매가</th><th>원가</th><th>원가율</th><th>마진</th></tr></thead><tbody id="mRows"></tbody></table></div>
           <p class="note">· 설정 &gt; 메뉴에 등록한 메뉴가 그대로 나와요. 원가(재료비)만 넣으면 저장돼요. 원가율이 높은 메뉴가 위로 올라와요.<br>· 목표 원가율을 넘는 메뉴는 주황색으로 표시하고, 목표에 맞추려면 얼마에 팔아야 하는지 알려 드려요.<br>· 부가세 포함 가격이면 실제 매출은 판매가 ÷ 1.1로 계산해요. 인건비·임대료·카드·배달 수수료는 빠진 금액이에요.</p>
         </div></div>
+      
+        <div class="panel calc" id="calc-vat"><header><h2>부가세 예상 계산기</h2></header><div class="body" style="padding:16px">
+          <div class="field"><label>과세 유형</label><div class="seg" id="vType"><button type="button" data-t="s" class="on">간이과세자</button><button type="button" data-t="g">일반과세자</button></div></div>
+          <div id="vS"><div class="grid2"><div class="field"><label for="vSSale">1년 매출(부가세 포함, 원)</label><input class="input num" id="vSSale" inputmode="numeric" value="60000000"></div><div class="field"><label for="vSBuy">세금계산서 받은 매입(부가세 포함, 원)</label><input class="input num" id="vSBuy" inputmode="numeric" value="20000000"></div></div>
+            <div class="field"><label for="vRate">업종</label><select id="vRate"><option value="15">소매·음식점 (15%)</option><option value="20">제조·농림어업·소화물 운송 (20%)</option><option value="25">숙박 (25%)</option><option value="30" selected>건설·운수창고·정보통신·그 밖의 서비스 (30%)</option><option value="40">금융보험·전문과학기술·사업지원·부동산 관련·부동산임대 (40%)</option></select></div></div>
+          <div id="vG" style="display:none"><div class="grid2"><div class="field"><label for="vGSale">6개월 매출(공급가액, 원)</label><input class="input num" id="vGSale" inputmode="numeric" value="50000000"></div><div class="field"><label for="vGBuy">6개월 매입(공급가액, 원)</label><input class="input num" id="vGBuy" inputmode="numeric" value="20000000"></div></div></div>
+          <div class="res" id="vRes"></div>
+          <p class="note">· 간이과세자: 매출 × 업종별 부가가치율 × 10% − 세금계산서 받은 매입의 0.5%. 공제가 더 커도 환급은 없어요. 1년 매출 4,800만 원 미만이면 납부 의무가 면제돼요.<br>· 미용실·네일·피부관리 같은 개인 서비스는 보통 '그 밖의 서비스(30%)'예요. 정확한 업종은 사업자등록증의 업종코드로 확인해 주세요.<br>· 일반과세자: 매출세액(공급가액의 10%) − 매입세액. 매입세액이 더 많으면 환급돼요.<br>· 신용카드 발행 세액공제 등은 넣지 않은 예상치예요. 실제 신고 전에는 홈택스나 세무 전문가에게 확인해 주세요.</p>
+        </div></div>
+        <div class="panel calc" id="calc-delivery"><header><h2>배달 한 건 실수령 계산기</h2></header><div class="body" style="padding:16px">
+          <div class="grid2"><div class="field"><label for="dOrder">주문 금액(원)</label><input class="input num" id="dOrder" inputmode="numeric" value="25000"></div><div class="field"><label for="dCost">재료비(원)</label><input class="input num" id="dCost" inputmode="numeric" value="8000"></div></div>
+          <div class="grid3"><div class="field"><label for="dFee">중개 수수료(%)</label><input class="input num" id="dFee" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dPay">결제 수수료(%)</label><input class="input num" id="dPay" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dShip">사장님 부담 배달비(원)</label><input class="input num" id="dShip" inputmode="numeric" placeholder="0"></div></div>
+          <div class="grid2"><div class="field"><label for="dCoupon">사장님 부담 할인·쿠폰(원)</label><input class="input num" id="dCoupon" inputmode="numeric" placeholder="0"></div><div class="field" style="display:flex;align-items:flex-end"><label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:500"><input type="checkbox" id="dVat" checked> 수수료·배달비에 부가세 10% 붙음</label></div></div>
+          <div class="res" id="dRes"></div>
+          <p class="note">· 수수료율과 배달비는 앱·요금제·매출 구간마다 달라서 직접 넣게 했어요. 배달앱 사장님 사이트의 정산 내역에 나온 숫자를 넣으면 가장 정확해요.<br>· 실수령 = 주문 금액 − (중개·결제 수수료 + 배달비)(부가세 포함) − 할인. 남는 돈은 여기서 재료비를 뺀 금액이에요. 매출 부가세·인건비·포장비는 빠져 있어요.</p>
+        </div></div>
+        <div class="panel calc" id="calc-insure"><header><h2>4대보험 · 퇴직금 계산기</h2></header><div class="body" style="padding:16px">
+          <div class="field"><label for="iPay">직원 월급(비과세 빼고, 원)</label><input class="input num" id="iPay" inputmode="numeric" value="2236300"></div>
+          <div class="field"><label for="iSan">산재보험 요율(%, 업종별)</label><input class="input num" id="iSan" inputmode="decimal" placeholder="근로복지공단 고시 업종 요율"></div>
+          <div class="res" id="iRes"></div>
+          <div class="grid2" style="margin-top:14px"><div class="field"><label for="iDays">근무한 날수(입사일~퇴사일)</label><input class="input num" id="iDays" inputmode="numeric" value="365"></div><div class="field"><label for="i3m">퇴사 전 3개월 받은 돈 합계(원)</label><input class="input num" id="i3m" inputmode="numeric" value="6708900"></div></div>
+          <div class="field"><label for="i3d">그 3개월의 날수</label><input class="input num" id="i3d" inputmode="numeric" value="92"></div>
+          <div class="res" id="iRes2"></div>
+          <p class="note">· 2026년 요율: 국민연금 9.5%(사업주 4.75%), 건강보험 7.19%(3.595%), 장기요양 건강보험료의 13.14%(절반), 고용보험 실업급여 1.8%(0.9%) + 사업주 고용안정·직업능력개발 0.25%(150명 미만 사업장 기준). 산재보험은 사업주가 전부 내고 업종마다 달라요. 요율은 해마다 바뀌니 각 공단 공지로 확인해 주세요.<br>· 국민연금은 소득 상·하한, 건강보험은 원 단위 절사 규칙이 있어서 실제 고지액과 몇 원~몇백 원 차이가 날 수 있어요.<br>· 퇴직금: 1년 이상, 주 15시간 이상 일한 직원에게 줘요. 1일 평균임금(퇴사 전 3개월 임금 ÷ 그 기간 날수) × 30일 × 근무 날수 ÷ 365.</p>
+        </div></div>
       </section>
     </main>
   </div>
@@ -605,9 +630,9 @@ if(!D.setup)wizOpen();
 const TOOLS={
   wage:{ic:'🧾',name:'알바 급여 · 주휴수당',sub:'시급·근무 시간만 넣으면 주휴수당과 한 달 급여까지',ok:1},
   margin:{ic:'🧮',name:'메뉴별 마진 · 예상 수익',sub:'이번 달 화면에서 메뉴별 마진과 월세·세금 뺀 예상 수익까지 (PRO)',ok:1,go:'stats'},
-  delivery:{ic:'🛵',name:'배달앱 수수료 · 실수령',sub:'배달 주문 한 건에 실제로 남는 돈'},
-  vat:{ic:'📑',name:'부가세 예상',sub:'간이·일반과세자 부가세 미리 보기'},
-  insure:{ic:'🛡️',name:'4대보험 · 퇴직금',sub:'직원 뽑을 때 드는 돈 미리 보기'}
+  delivery:{ic:'🛵',name:'배달 한 건 실수령',sub:'수수료·배달비·쿠폰 빼고 한 건에 남는 돈',ok:1},
+  vat:{ic:'📑',name:'부가세 예상',sub:'간이·일반과세자 부가세 미리 보기',ok:1},
+  insure:{ic:'🛡️',name:'4대보험 · 퇴직금',sub:'직원 월급에 붙는 보험료와 퇴직금 미리 보기',ok:1}
 };
 const TOOL_ORDER={food:['delivery','margin','wage','vat','insure'],_:['wage','vat','margin','insure','delivery']};
 function renderTools(){const ord=TOOL_ORDER[D&&D.ind==='food'?'food':'_'];
@@ -672,6 +697,28 @@ function renderPinNow(){const n=$('#pinNow');if(!n)return;n.textContent=D.pin?'�
 $('#pinSet').onclick=()=>askPin('지금 비밀번호를 넣어 주세요',()=>{$('#psA').value='';$('#psB').value='';open('pinset');setTimeout(()=>$('#psA').focus(),80)});
 $('#psOk').onclick=()=>{const a=$('#psA').value,b=$('#psB').value;if(!/^\d{4}$/.test(a)){toast('숫자 4자리로 넣어 주세요');return}if(a!==b){toast('두 칸이 서로 달라요');return}D.pin=pinHash(a);save();closeAll();renderPinNow();toast('비밀번호를 저장했어요')};
 {const _r2=render;render=function(){_r2();try{renderPinNow()}catch(e){}};renderPinNow();}
+
+// ---- 부가세·배달·4대보험 (11-19) ----
+const nv=q=>+(($(q)||{}).value||0)||0;
+let vT='s';
+function calcVat(){$('#vS').style.display=vT==='s'?'':'none';$('#vG').style.display=vT==='g'?'':'none';
+  if(vT==='s'){const sale=nv('#vSSale'),buy=nv('#vSBuy'),r=nv('#vRate');const tax=sale*r/100*0.1,ded=buy*0.005,pay=Math.max(0,tax-ded),ex=sale<48000000;
+    $('#vRes').innerHTML='<div><span>납부세액(공제 전)</span><b class="num">'+won(tax)+'</b></div><div><span>매입 공제(0.5%)</span><b class="num">'+won(Math.min(ded,tax))+'</b></div><div><span>예상 부가세(1년)</span><b class="num">'+(ex?'납부 면제':won(pay))+'</b></div>'+(sale>=104000000?'<div><span>참고</span><b style="font-size:14px">1년 매출 1억 400만 원 이상이면 다음 해 7월부터 일반과세자예요</b></div>':'')}
+  else{const sale=nv('#vGSale'),buy=nv('#vGBuy');const out=sale*0.1,inn=buy*0.1,d=out-inn;
+    $('#vRes').innerHTML='<div><span>매출세액</span><b class="num">'+won(out)+'</b></div><div><span>매입세액</span><b class="num">'+won(inn)+'</b></div><div><span>'+(d>=0?'예상 납부(6개월)':'예상 환급(6개월)')+'</span><b class="num">'+won(Math.abs(d))+'</b></div>'}}
+$$('#vType button').forEach(b=>b.onclick=()=>{vT=b.dataset.t;$$('#vType button').forEach(x=>x.classList.toggle('on',x===b));calcVat()});
+['#vSSale','#vSBuy','#vRate','#vGSale','#vGBuy'].forEach(q=>{$(q).oninput=calcVat;$(q).onchange=calcVat});
+function calcDel(){const o=nv('#dOrder'),c=nv('#dCost'),f=nv('#dFee'),p=nv('#dPay'),sh=nv('#dShip'),cp=nv('#dCoupon'),vat=$('#dVat').checked?1.1:1;
+  const fee=(o*(f+p)/100+sh)*vat,get=o-fee-cp,left=get-c;
+  $('#dRes').innerHTML='<div><span>수수료·배달비 합계</span><b class="num">'+won(fee)+'</b></div><div><span>정산 받는 돈</span><b class="num">'+won(get)+'</b></div><div><span>재료비 빼고 남는 돈</span><b class="num">'+won(left)+'</b></div><div><span>주문 금액 대비</span><b class="num">'+(o?Math.round(left/o*1000)/10:0)+'%</b></div>'}
+['#dOrder','#dCost','#dFee','#dPay','#dShip','#dCoupon','#dVat'].forEach(q=>{$(q).oninput=calcDel;$(q).onchange=calcDel});
+function calcIns(){const w=nv('#iPay'),san=nv('#iSan');const np=w*0.0475,hi=w*0.03595,lt=w*0.0719*0.1314/2,eiW=w*0.009,eiB=w*(0.009+0.0025),sa=w*san/100;
+  const boss=np+hi+lt+eiB+sa,emp=np+hi+lt+eiW;
+  $('#iRes').innerHTML='<div><span>사장님 부담(월)</span><b class="num">'+won(boss)+'</b></div><div><span>직원 부담(월)</span><b class="num">'+won(emp)+'</b></div><div><span>직원 1명 한 달 인건비</span><b class="num">'+won(w+boss)+'</b></div><div style="grid-column:1/-1"><span>사장님 부담 내역</span><b style="font-size:13px;line-height:1.7;font-weight:600">연금 '+won(np)+'<br>건강 '+won(hi)+'<br>요양 '+won(lt)+'<br>고용 '+won(eiB)+(san?'<br>산재 '+won(sa):'')+'</b></div>';
+  const days=nv('#iDays'),m3=nv('#i3m'),d3=nv('#i3d'),avg=d3?m3/d3:0,sev=days>=365?avg*30*days/365:0;
+  $('#iRes2').innerHTML='<div><span>1일 평균임금</span><b class="num">'+won(avg)+'</b></div><div><span>예상 퇴직금</span><b class="num">'+(days>=365?won(sev):'1년 미만은 없음')+'</b></div>'}
+['#iPay','#iSan','#iDays','#i3m','#i3d'].forEach(q=>{$(q).oninput=calcIns;$(q).onchange=calcIns});
+calcVat();calcDel();calcIns();
 </script>
 <script data-goatcounter="https://danggolnote.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
