@@ -106,8 +106,13 @@ textarea{min-height:72px;resize:vertical}
 .demo-note{font-size:12px;color:var(--muted);padding:14px 0 0}
 .tabbar{display:none}
 .table .btn{white-space:nowrap}
+.santab td,.santab th{white-space:nowrap}
+.santab tr.g td{background:var(--accent-soft);font-weight:700;color:var(--accent);cursor:default}
+.santab tr.r{cursor:pointer}.santab tr.r:hover td{background:var(--bg)}
+.santab tr.top td:first-child::after{content:' 자주';font-size:11px;color:var(--warm);font-weight:700}
 .lash-ic{display:inline-grid;place-items:center;color:var(--accent)}
 .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.tgroup{grid-column:1/-1;font-size:15px;color:var(--muted);margin:8px 2px -4px}
 .tool{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px;text-align:left;cursor:pointer;box-shadow:var(--shadow)}
 .tool .ti{font-size:26px;line-height:1}
 .tool b{font-size:16px}
@@ -219,7 +224,7 @@ input,select,textarea,.input{font-size:16px!important}
     <button class="navbtn on" data-p="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>오늘</button>
     <button class="navbtn" data-p="revisit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>다시 올 손님<span class="badge" data-badge="revisit"></span></button>
     <button class="navbtn" data-p="customers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/></svg>손님</button>
-    <button class="navbtn" data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>이번 달</button>
+    <button class="navbtn" data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>마진·수익</button>
     <button class="navbtn" data-p="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>사장님 도구</button>
     <button class="navbtn" data-p="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>가게 설정</button>
     <div class="plan" id="planSide"></div>
@@ -256,19 +261,26 @@ input,select,textarea,.input{font-size:16px!important}
         <div class="panel"><div id="custList"></div></div>
       </section>
       <section class="page" id="p-stats">
-        <div class="topbar"><div><h1>이번 달</h1><div class="date" id="monthLabel"></div></div></div>
+        <div class="topbar"><div><h1>메뉴별 마진 · 예상 수익</h1><div class="date" id="monthLabel"></div></div></div>
         <div class="summary">
           <div><span>방문 완료</span><b class="num" id="mDone">0</b></div>
           <div><span>노쇼</span><b class="num" id="mNs">0</b></div>
           <div><span>노쇼율</span><b class="num" id="mNsr">0</b></div>
           <div><span>매출(방문 기준)</span><b class="num" id="mRev">0</b></div>
         </div>
-        <div class="panel locked" id="profitPanel"><header><h2>메뉴별 마진 · 이번 달 예상 수익</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px">
+        <div class="panel locked" id="profitPanel"><header><h2>이번 달 예상 수익</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px">
           <div class="pfsum" id="pfSum"></div>
           <div class="grid3"><div class="field"><label for="pfRent">월세(원)</label><input class="input num" id="pfRent" inputmode="numeric" placeholder="0"></div><div class="field"><label for="pfTax">세금 예상(원)</label><input class="input num" id="pfTax" inputmode="numeric" placeholder="0"></div><div class="field"><label for="pfEtc">기타 고정비(원)</label><input class="input num" id="pfEtc" inputmode="numeric" placeholder="0"></div></div>
           <div class="wrapx"><table class="table mtab"><thead><tr><th>메뉴</th><th>건수</th><th>판매가</th><th>원가</th><th>마진 합계</th></tr></thead><tbody id="pfRows"></tbody></table></div>
           <p class="note">· 건수는 이번 달 방문 완료 + 남은 예약(취소·노쇼 제외)이에요. 예약이 들어오면 자동으로 올라가요.<br>· 메뉴를 누르면 이번 달 시술 이력(고객명·날짜)이 보여요. 원가(재료비)는 숫자만 넣으면 저장돼요.<br>· 예상 수익 = 마진 합계 − 월세 − 세금 − 기타 고정비. 카드 수수료·인건비는 기타에 넣어 주세요.</p>
         </div><div class="veil" id="pfVeil"><button class="btn primary" data-open="plans">PRO로 이번 달 수익 보기</button></div></div>
+        <div class="panel" id="calc-delivery"><header><h2>배달 한 건 실수령 계산기</h2></header><div class="body" style="padding:16px">
+          <div class="grid2"><div class="field"><label for="dOrder">주문 금액(원)</label><input class="input num" id="dOrder" inputmode="numeric" value="25000"></div><div class="field"><label for="dCost">재료비(원)</label><input class="input num" id="dCost" inputmode="numeric" value="8000"></div></div>
+          <div class="grid3"><div class="field"><label for="dFee">중개 수수료(%)</label><input class="input num" id="dFee" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dPay">결제 수수료(%)</label><input class="input num" id="dPay" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dShip">사장님 부담 배달비(원)</label><input class="input num" id="dShip" inputmode="numeric" placeholder="0"></div></div>
+          <div class="grid2"><div class="field"><label for="dCoupon">사장님 부담 할인·쿠폰(원)</label><input class="input num" id="dCoupon" inputmode="numeric" placeholder="0"></div><div class="field" style="display:flex;align-items:flex-end"><label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:500"><input type="checkbox" id="dVat" checked> 수수료·배달비에 부가세 10% 붙음</label></div></div>
+          <div class="res" id="dRes"></div>
+          <p class="note">· 수수료율과 배달비는 앱·요금제·매출 구간마다 달라서 직접 넣게 했어요. 배달앱 사장님 사이트의 정산 내역에 나온 숫자를 넣으면 가장 정확해요.<br>· 실수령 = 주문 금액 − (중개·결제 수수료 + 배달비)(부가세 포함) − 할인. 남는 돈은 여기서 재료비를 뺀 금액이에요. 매출 부가세·인건비·포장비는 빠져 있어요.</p>
+        </div></div>
         <div class="panel locked" id="mixPanel"><header><h2>메뉴별 매출</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px" id="mix"></div><div class="veil" id="mixVeil"><button class="btn primary" data-open="plans">PRO로 자세히 보기</button></div></div>
       </section>
       <section class="page" id="p-settings">
@@ -312,16 +324,9 @@ input,select,textarea,.input{font-size:16px!important}
           <div class="res" id="vRes"></div>
           <p class="note">· 간이과세자: 매출 × 업종별 부가가치율 × 10% − 세금계산서 받은 매입의 0.5%. 공제가 더 커도 환급은 없어요. 1년 매출 4,800만 원 미만이면 납부 의무가 면제돼요.<br>· 미용실·네일·피부관리 같은 개인 서비스는 보통 '그 밖의 서비스(30%)'예요. 정확한 업종은 사업자등록증의 업종코드로 확인해 주세요.<br>· 일반과세자: 매출세액(공급가액의 10%) − 매입세액. 매입세액이 더 많으면 환급돼요.<br>· 신용카드 발행 세액공제 등은 넣지 않은 예상치예요. 실제 신고 전에는 홈택스나 세무 전문가에게 확인해 주세요.</p>
         </div></div>
-        <div class="panel calc" id="calc-delivery"><header><h2>배달 한 건 실수령 계산기</h2></header><div class="body" style="padding:16px">
-          <div class="grid2"><div class="field"><label for="dOrder">주문 금액(원)</label><input class="input num" id="dOrder" inputmode="numeric" value="25000"></div><div class="field"><label for="dCost">재료비(원)</label><input class="input num" id="dCost" inputmode="numeric" value="8000"></div></div>
-          <div class="grid3"><div class="field"><label for="dFee">중개 수수료(%)</label><input class="input num" id="dFee" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dPay">결제 수수료(%)</label><input class="input num" id="dPay" inputmode="decimal" placeholder="앱 정산서 기준"></div><div class="field"><label for="dShip">사장님 부담 배달비(원)</label><input class="input num" id="dShip" inputmode="numeric" placeholder="0"></div></div>
-          <div class="grid2"><div class="field"><label for="dCoupon">사장님 부담 할인·쿠폰(원)</label><input class="input num" id="dCoupon" inputmode="numeric" placeholder="0"></div><div class="field" style="display:flex;align-items:flex-end"><label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:500"><input type="checkbox" id="dVat" checked> 수수료·배달비에 부가세 10% 붙음</label></div></div>
-          <div class="res" id="dRes"></div>
-          <p class="note">· 수수료율과 배달비는 앱·요금제·매출 구간마다 달라서 직접 넣게 했어요. 배달앱 사장님 사이트의 정산 내역에 나온 숫자를 넣으면 가장 정확해요.<br>· 실수령 = 주문 금액 − (중개·결제 수수료 + 배달비)(부가세 포함) − 할인. 남는 돈은 여기서 재료비를 뺀 금액이에요. 매출 부가세·인건비·포장비는 빠져 있어요.</p>
-        </div></div>
         <div class="panel calc" id="calc-insure"><header><h2>4대보험 · 퇴직금 계산기</h2></header><div class="body" style="padding:16px">
           <div class="field"><label for="iPay">직원 월급(비과세 빼고, 원)</label><input class="input num" id="iPay" inputmode="numeric" value="2236300"></div>
-          <div class="field"><label for="iSan">산재보험 요율(%, 업종별)</label><input class="input num" id="iSan" inputmode="decimal" placeholder="근로복지공단 고시 업종 요율"></div>
+          <div class="field"><label for="iSan" style="display:flex;justify-content:space-between;align-items:center;gap:8px">산재보험 요율(%, 업종별)<button type="button" class="btn sm" id="sanMore">자세히 보기</button></label><input class="input num" id="iSan" inputmode="decimal" placeholder="근로복지공단 고시 업종 요율"></div>
           <div class="res" id="iRes"></div>
           <div class="grid2" style="margin-top:14px"><div class="field"><label for="iDays">근무한 날수(입사일~퇴사일)</label><input class="input num" id="iDays" inputmode="numeric" value="365"></div><div class="field"><label for="i3m">퇴사 전 3개월 받은 돈 합계(원)</label><input class="input num" id="i3m" inputmode="numeric" value="6708900"></div></div>
           <div class="field"><label for="i3d">그 3개월의 날수</label><input class="input num" id="i3d" inputmode="numeric" value="92"></div>
@@ -337,7 +342,7 @@ input,select,textarea,.input{font-size:16px!important}
   <button class="on" data-p="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>오늘</button>
   <button data-p="revisit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>재방문<span class="badge" data-badge="revisit"></span></button>
   <button data-p="customers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/></svg>손님</button>
-  <button data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>이번 달</button>
+  <button data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>수익</button>
   <button data-p="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>도구</button>
   <button data-p="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>설정</button>
 </nav>
@@ -373,6 +378,9 @@ input,select,textarea,.input{font-size:16px!important}
 <div class="sheet-bg" id="sh-pinset"><div class="sheet" role="dialog" aria-labelledby="psT"><header><h3 id="psT">새 비밀번호</h3><button class="btn sm" data-close>닫기</button></header>
   <div class="body"><div class="grid2"><div class="field"><label for="psA">새 비밀번호 (숫자 4자리)</label><input class="input num" id="psA" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div><div class="field"><label for="psB">한 번 더</label><input class="input num" id="psB" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div></div><p class="hint">기록을 지우거나 처음 설정을 다시 할 때, 백업을 불러올 때 물어봐요.</p></div>
   <div class="acts"><button class="btn" data-close>취소</button><button class="btn primary" id="psOk">저장</button></div></div></div>
+<div class="sheet-bg" id="sh-san"><div class="sheet" role="dialog" aria-labelledby="sanT"><header><h3 id="sanT">2026년 업종별 산재보험료율</h3><button class="btn sm" data-close>닫기</button></header>
+  <div class="body"><p class="hint" style="margin:0 0 10px">업종을 누르면 계산기에 바로 넣어요. 요율은 업종 요율에 출퇴근재해 요율(전 업종 0.06%)을 더한 값이에요.</p><div class="wrapx"><table class="table santab"><thead><tr><th>사업 종류</th><th>요율</th></tr></thead><tbody id="sanRows"></tbody></table></div>
+  <p class="note">· 출처: 고용노동부 「2026년도 사업종류별 산재보험료율」 고시 별지(2026년 1월 1일 시행). 단위는 원문 천분율(‰)을 %로 바꾼 값이에요.<br>· 우리 가게가 어느 사업 종류에 들어가는지는 근로복지공단 누리집의 '사업종류 예시표'로 확인해 주세요. 가입할 때 공단이 정한 종류가 기준이에요.<br>· 해외 파견자는 1.4%가 따로 적용돼요.</p></div></div></div>
 <div class="sheet-bg" id="sh-plans"><div class="sheet" role="dialog" aria-labelledby="plT"><header><h3 id="plT">요금제</h3><button class="btn sm" data-close>닫기</button></header>
   <div class="body">
     <div class="plans">
@@ -629,15 +637,16 @@ if(!D.setup)wizOpen();
 // ---- 사장님 도구 (11-19) ----
 const TOOLS={
   wage:{ic:'🧾',name:'알바 급여 · 주휴수당',sub:'시급·근무 시간만 넣으면 주휴수당과 한 달 급여까지',ok:1},
-  margin:{ic:'🧮',name:'메뉴별 마진 · 예상 수익',sub:'이번 달 화면에서 메뉴별 마진과 월세·세금 뺀 예상 수익까지 (PRO)',ok:1,go:'stats'},
-  delivery:{ic:'🛵',name:'배달 한 건 실수령',sub:'수수료·배달비·쿠폰 빼고 한 건에 남는 돈',ok:1},
+  _margin:{ic:'🧮',name:'메뉴별 마진 · 예상 수익',sub:'이번 달 화면에서 메뉴별 마진과 월세·세금 뺀 예상 수익까지 (PRO)',ok:1,go:'stats'},
+  _delivery:{ic:'🛵',name:'배달 한 건 실수령',sub:'수수료·배달비·쿠폰 빼고 한 건에 남는 돈',ok:1},
   vat:{ic:'📑',name:'부가세 예상',sub:'간이·일반과세자 부가세 미리 보기',ok:1},
   insure:{ic:'🛡️',name:'4대보험 · 퇴직금',sub:'직원 월급에 붙는 보험료와 퇴직금 미리 보기',ok:1}
 };
-const TOOL_ORDER={food:['delivery','margin','wage','vat','insure'],_:['wage','vat','margin','insure','delivery']};
-function renderTools(){const ord=TOOL_ORDER[D&&D.ind==='food'?'food':'_'];
-  $('#toolList').innerHTML=ord.map(k=>{const t=TOOLS[k];return '<button type="button" class="tool'+(t.ok?'':' soon')+'" data-tool="'+k+'"><span class="ti">'+t.ic+'</span><b>'+t.name+'</b><small>'+t.sub+'</small><span class="tag">'+(t.ok?'바로 쓰기':'준비 중')+'</span></button>'}).join('');
-  $$('#toolList .tool').forEach(b=>b.onclick=()=>{const k=b.dataset.tool;if(!TOOLS[k].ok){toast('곧 열어 드릴게요');return}if(TOOLS[k].go){go(TOOLS[k].go);setTimeout(()=>$('#profitPanel').scrollIntoView({behavior:'smooth'}),100);return}$$('.calc').forEach(c=>c.classList.toggle('on',c.id==='calc-'+k));$('#calc-'+k).scrollIntoView({behavior:'smooth',block:'start'})});}
+const TOOL_GROUPS=[['인건비',['wage','insure']],['세금',['vat']]];
+function renderTools(){
+  $('#toolList').innerHTML=TOOL_GROUPS.map(([g,ks])=>'<h3 class="tgroup">'+g+'</h3>'+ks.map(k=>{const t=TOOLS[k];return '<button type="button" class="tool'+(t.ok?'':' soon')+'" data-tool="'+k+'"><span class="ti">'+t.ic+'</span><b>'+t.name+'</b><small>'+t.sub+'</small><span class="tag">'+(t.ok?'바로 쓰기':'준비 중')+'</span></button>'}).join('')).join('')+'<button type="button" class="tool tolink" data-golink="stats"><span class="ti">🧮</span><b>메뉴별 마진 · 배달 실수령</b><small>아래 메뉴의 \'수익\' 화면으로 옮겼어요</small><span class="tag">수익 화면 열기</span></button>';
+  $$('#toolList [data-golink]').forEach(b=>b.onclick=()=>go(b.dataset.golink));
+  $$('#toolList .tool[data-tool]').forEach(b=>b.onclick=()=>{const k=b.dataset.tool;if(!TOOLS[k].ok){toast('곧 열어 드릴게요');return}if(TOOLS[k].go){go(TOOLS[k].go);setTimeout(()=>$('#profitPanel').scrollIntoView({behavior:'smooth'}),100);return}$$('.calc').forEach(c=>c.classList.toggle('on',c.id==='calc-'+k));$('#calc-'+k).scrollIntoView({behavior:'smooth',block:'start'})});}
 function setYear(y){$$('#wYear button').forEach(b=>b.classList.toggle('on',b.dataset.y===y));if(y==='2026')$('#wRate').value=10320;if(y==='2027')$('#wRate').value=10700;if(y==='x')$('#wRate').focus();calcWage()}
 function calcWage(){const r=+$('#wRate').value||0,h=+$('#wHours').value||0,d=+$('#wDays').value||0,wk=h*d;
   const ju=wk>=15?Math.min(wk,40)/40*8*r:0,week=r*wk+ju,mon=week*4.345;
@@ -719,6 +728,20 @@ function calcIns(){const w=nv('#iPay'),san=nv('#iSan');const np=w*0.0475,hi=w*0.
   $('#iRes2').innerHTML='<div><span>1일 평균임금</span><b class="num">'+won(avg)+'</b></div><div><span>예상 퇴직금</span><b class="num">'+(days>=365?won(sev):'1년 미만은 없음')+'</b></div>'}
 ['#iPay','#iSan','#iDays','#i3m','#i3d'].forEach(q=>{$(q).oninput=calcIns;$(q).onchange=calcIns});
 calcVat();calcDel();calcIns();
+
+// ---- 산재보험 요율표 (고용노동부 2026 고시 별지, 단위 ‰) ----
+const SAN=[['자주 찾는 업종',[['도소매·음식·숙박업',8,1],['기타의 각종사업',8,1],['전문·보건·교육·여가관련 서비스업',6,1],['시설관리 및 사업지원 서비스업',8,1],['부동산 및 임대업',7,1]]],
+ ['1. 광업',[['석탄광업 및 채석업',185],['석회석·금속·비금속·기타광업',57]]],
+ ['2. 제조업',[['식료품 제조업',16],['섬유 및 섬유제품 제조업',11],['목재 및 종이제품 제조업',20],['출판·인쇄·제본업',9],['화학 및 고무제품 제조업',13],['의약품·화장품·연탄·석유제품 제조업',7],['기계기구·금속·비금속광물제품 제조업',13],['금속제련업',10],['전기기계기구·정밀기구·전자제품 제조업',6],['선박건조 및 수리업',24],['수제품 및 기타제품 제조업',12]]],
+ ['3. 전기·가스·증기·수도사업',[['전기·가스·증기·수도사업',7]]],['4. 건설업',[['건설업',35]]],
+ ['5. 운수·창고·통신업',[['철도·항공·창고·운수관련서비스업',8],['육상 및 수상운수업',18],['통신업',9]]],
+ ['6~8. 임업·어업·농업',[['임업',58],['어업',27],['농업',20]]],
+ ['9. 기타의 사업',[['시설관리 및 사업지원 서비스업',8],['기타의 각종사업',8],['전문·보건·교육·여가관련 서비스업',6],['도소매·음식·숙박업',8],['부동산 및 임대업',7],['국가 및 지방자치단체의 사업',9]]],
+ ['0. 금융 및 보험업',[['금융 및 보험업',5]]]];
+const pct=x=>(Math.round(x*100)/1000).toFixed(2).replace(/0$/,'')+'%';
+$('#sanRows').innerHTML=SAN.map(([g,rows])=>'<tr class="g"><td colspan="2">'+g+'</td></tr>'+rows.map(([n,r])=>'<tr class="r" data-san="'+((r+0.6)/10)+'"><td style="white-space:normal">'+n+'</td><td class="num"><b>'+pct(r+0.6)+'</b></td></tr>').join('')).join('');
+$('#sanMore').onclick=e=>{e.preventDefault();open('san')};
+$('#sanRows').addEventListener('click',e=>{const tr=e.target.closest('tr.r');if(!tr)return;$('#iSan').value=tr.dataset.san;closeAll();calcIns();toast(tr.cells[0].textContent+' '+tr.dataset.san+'% 넣었어요')});
 </script>
 <script data-goatcounter="https://danggolnote.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
