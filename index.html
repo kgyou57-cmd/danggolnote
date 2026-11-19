@@ -105,6 +105,7 @@ textarea{min-height:72px;resize:vertical}
 .toast.show{opacity:1;transform:translateX(-50%)}
 .demo-note{font-size:12px;color:var(--muted);padding:14px 0 0}
 .tabbar{display:none}
+.table .btn{white-space:nowrap}
 .lash-ic{display:inline-grid;place-items:center;color:var(--accent)}
 .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .tool{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px;text-align:left;cursor:pointer;box-shadow:var(--shadow)}
@@ -281,8 +282,9 @@ input,select,textarea,.input{font-size:16px!important}
           <div class="panel"><header><h2>메뉴</h2><div class="grow"></div><button class="btn sm" id="addSvc">＋ 메뉴 추가</button></header><div class="wrapx"><table class="table"><thead><tr><th>이름</th><th>가격(원)</th><th>걸리는 시간(분)</th><th>평균 시술 주기(주)</th><th></th></tr></thead><tbody id="svcT"></tbody></table></div>
             <div class="foot">걸리는 시간은 예약이 겹치지 않게 막는 데 쓰여요. 고치면 바로 저장돼요.</div></div>
           <div class="panel"><header><h2>요금제</h2></header><div style="padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div id="planNow" style="flex:1"></div><button class="btn" data-open="plans">요금제 보기</button></div></div>
+          <div class="panel"><header><h2>비밀번호</h2></header><div style="padding:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><p style="flex:1;min-width:200px;font-size:14px;color:var(--muted)" id="pinNow"></p><button class="btn" id="pinSet">비밀번호 정하기</button></div></div>
           <div class="panel"><header><h2>백업</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><p style="flex:1;min-width:200px;font-size:14px;color:var(--muted)">손님·예약·메뉴 기록을 파일로 저장해 두고, 휴대폰을 바꾸거나 기록이 지워졌을 때 다시 불러와요.</p><button class="btn" id="bkSave">파일로 백업</button><button class="btn" id="bkLoad">백업 불러오기</button><input type="file" id="bkFile" accept=".json,application/json" hidden></div></div>
-          <div class="panel"><header><h2>견본 초기화</h2></header><div style="padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><p style="flex:1;font-size:14px;color:var(--muted)">모든 기록을 지우고 처음 실행 화면부터 다시 시작해요.</p><button class="btn danger" id="resetDemo">처음부터 다시</button></div></div>
+          <div class="panel"><header><h2>기록 초기화</h2></header><div style="padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><p style="flex:1;font-size:14px;color:var(--muted)">모든 기록을 지우고 처음 실행 화면부터 다시 시작해요.</p><button class="btn danger" id="resetDemo">처음부터 다시</button></div></div>
         </div>
       </section>
       <section class="page" id="p-tools">
@@ -343,6 +345,9 @@ input,select,textarea,.input{font-size:16px!important}
 <div class="sheet-bg" id="sh-pin"><div class="sheet" role="dialog" aria-labelledby="pinT"><header><h3 id="pinT">비밀번호 확인</h3><button class="btn sm" data-close>닫기</button></header>
   <div class="body"><p class="hint" id="pinMsg"></p><div class="field"><label for="pinIn">비밀번호 (숫자 4자리)</label><input class="input num" id="pinIn" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"></div></div>
   <div class="acts"><button class="btn" data-close>취소</button><button class="btn primary" id="pinOk">확인</button></div></div></div>
+<div class="sheet-bg" id="sh-pinset"><div class="sheet" role="dialog" aria-labelledby="psT"><header><h3 id="psT">새 비밀번호</h3><button class="btn sm" data-close>닫기</button></header>
+  <div class="body"><div class="grid2"><div class="field"><label for="psA">새 비밀번호 (숫자 4자리)</label><input class="input num" id="psA" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div><div class="field"><label for="psB">한 번 더</label><input class="input num" id="psB" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••"></div></div><p class="hint">기록을 지우거나 처음 설정을 다시 할 때, 백업을 불러올 때 물어봐요.</p></div>
+  <div class="acts"><button class="btn" data-close>취소</button><button class="btn primary" id="psOk">저장</button></div></div></div>
 <div class="sheet-bg" id="sh-plans"><div class="sheet" role="dialog" aria-labelledby="plT"><header><h3 id="plT">요금제</h3><button class="btn sm" data-close>닫기</button></header>
   <div class="body">
     <div class="plans">
@@ -654,12 +659,19 @@ function renderProfit(){D.cost=D.cost||{rent:0,tax:0,etc:0};
   if(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#pfRows'))return;
   const cname=id=>{const c=D.C.find(x=>x.id===id);return c?c.name:'(지운 손님)'};
   $('#pfRows').innerHTML=rows.map(r=>'<tr class="pf" data-pf="'+esc(r.n)+'"><td><b>'+esc(r.n)+'</b></td><td class="num cnt">'+r.cnt+'건<small>완료 '+r.g.done+' · 예정 '+r.g.plan+'</small></td><td class="num">'+(r.sv?won(r.sv.price):'-')+'</td><td>'+(r.sv?'<input class="input num" inputmode="numeric" data-pfcost="'+r.sv.id+'" value="'+(r.cost||'')+'" placeholder="0">':'-')+'</td><td class="num"><b>'+won(r.mg)+'</b></td></tr>'+(pfOpen===r.n?'<tr class="pfhist"><td colspan="5">'+(r.g.list.length?r.g.list.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(a=>esc(cname(a.cid))+' / '+a.date.slice(5).replace('-','.')+(a.status==='done'?'':' (예정)')).join('<br>'):'이번 달 시술 이력이 없어요')+'</td></tr>':'')).join('');
+  const miss=D.A.filter(a=>a.date.slice(0,7)===mon&&a.date<t&&a.status==='booked').length;if(miss)$('#pfSum').insertAdjacentHTML('beforeend','<p class="hint" style="grid-column:1/-1;margin:2px 0 0;color:var(--warm)">지난 예약 '+miss+'건이 아직 완료·노쇼 표시가 안 돼서 빠져 있어요. 오늘 화면에서 표시해 주세요.</p>');
   $('#pfVeil').style.display=D.pro?'none':'grid';}
 $('#pfRows').addEventListener('click',e=>{if(e.target.closest('input'))return;const tr=e.target.closest('tr.pf');if(!tr)return;pfOpen=pfOpen===tr.dataset.pf?null:tr.dataset.pf;renderProfit()});
 $('#pfRows').addEventListener('change',e=>{const i=e.target;if(!i.dataset.pfcost)return;const x=D.svc.find(y=>y.id===i.dataset.pfcost);if(!x)return;x.cost=Math.max(0,+i.value||0);save();i.blur();renderProfit()});
 $('#pfRows').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur()});
 [['#pfRent','rent'],['#pfTax','tax'],['#pfEtc','etc']].forEach(([q,k])=>{$(q).onchange=()=>{D.cost=D.cost||{};D.cost[k]=Math.max(0,+$(q).value||0);save();renderProfit()}});
 {const _r=render;render=function(){_r();try{renderProfit()}catch(e){}};renderProfit();}
+
+// ---- 비밀번호 정하기·바꾸기 ----
+function renderPinNow(){const n=$('#pinNow');if(!n)return;n.textContent=D.pin?'비밀번호가 걸려 있어요. 기록을 지우거나 처음 설정을 다시 할 때 물어봐요.':'아직 비밀번호가 없어요. 정해 두면 실수로 기록을 지우는 걸 막을 수 있어요.';$('#pinSet').textContent=D.pin?'비밀번호 바꾸기':'비밀번호 정하기'}
+$('#pinSet').onclick=()=>askPin('지금 비밀번호를 넣어 주세요',()=>{$('#psA').value='';$('#psB').value='';open('pinset');setTimeout(()=>$('#psA').focus(),80)});
+$('#psOk').onclick=()=>{const a=$('#psA').value,b=$('#psB').value;if(!/^\d{4}$/.test(a)){toast('숫자 4자리로 넣어 주세요');return}if(a!==b){toast('두 칸이 서로 달라요');return}D.pin=pinHash(a);save();closeAll();renderPinNow();toast('비밀번호를 저장했어요')};
+{const _r2=render;render=function(){_r2();try{renderPinNow()}catch(e){}};renderPinNow();}
 </script>
 <script data-goatcounter="https://danggolnote.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
