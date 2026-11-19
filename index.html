@@ -105,6 +105,43 @@ textarea{min-height:72px;resize:vertical}
 .toast.show{opacity:1;transform:translateX(-50%)}
 .demo-note{font-size:12px;color:var(--muted);padding:14px 0 0}
 .tabbar{display:none}
+.lash-ic{display:inline-grid;place-items:center;color:var(--accent)}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px;text-align:left;cursor:pointer;box-shadow:var(--shadow)}
+.tool .ti{font-size:26px;line-height:1}
+.tool b{font-size:16px}
+.tool small{color:var(--muted);font-size:13px;line-height:1.5}
+.tool.soon{cursor:default;opacity:.6}
+.tool .tag{align-self:flex-start;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.tool.soon .tag{background:var(--warm-soft);color:var(--warm)}
+.calc{display:none;margin-top:16px}
+.calc.on{display:block}
+.calc .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.calc .res div{background:var(--accent-soft);border-radius:14px;padding:12px 14px}
+.calc .res span{display:block;font-size:12px;color:var(--muted)}
+.calc .res b{font-size:20px}
+.calc .note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.6}
+.pfsum{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+.pfsum div{background:var(--accent-soft);border-radius:12px;padding:10px 12px}
+.pfsum div.big{grid-column:1/-1;background:var(--accent);color:#fff}
+.pfsum div.big span{color:#e3eee9}
+.pfsum span{display:block;font-size:12px;color:var(--muted)}
+.pfsum b{font-size:17px}.pfsum .big b{font-size:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mtab tr.pf{cursor:pointer}
+.mtab tr.pfhist td{background:var(--bg);font-size:13px;color:var(--muted);white-space:normal}
+.mtab .cnt small{display:block;font-size:11px;color:var(--muted)}
+.msum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.msum div{background:var(--accent-soft);border-radius:12px;padding:10px 12px}
+.msum span{display:block;font-size:12px;color:var(--muted)}
+.msum b{font-size:17px}
+.mtab td,.mtab th{white-space:nowrap}
+.mtab input{width:96px;padding:8px 10px}
+.mtab tr.over td{background:var(--warm-soft)}
+.mtab small{display:block;color:var(--warm);font-size:11.5px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{padding:8px 16px;font-size:14px;white-space:nowrap}
+.seg button.on{background:var(--accent);color:#fff}
 .page{display:none}.page.on{display:block;animation:pageIn .32s ease both}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes slideInR{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
@@ -157,7 +194,7 @@ textarea{min-height:72px;resize:vertical}
   .grid2{grid-template-columns:1fr}
   .inds{grid-template-columns:1fr 1fr}
   .plans{grid-template-columns:1fr}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
   .tabbar button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);padding:4px 0;position:relative}
   .tabbar button svg{width:22px;height:22px}
   .tabbar button.on{color:var(--accent)}
@@ -182,6 +219,7 @@ input,select,textarea,.input{font-size:16px!important}
     <button class="navbtn" data-p="revisit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>다시 올 손님<span class="badge" data-badge="revisit"></span></button>
     <button class="navbtn" data-p="customers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/></svg>손님</button>
     <button class="navbtn" data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>이번 달</button>
+    <button class="navbtn" data-p="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>사장님 도구</button>
     <button class="navbtn" data-p="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>가게 설정</button>
     <div class="plan" id="planSide"></div>
   </aside>
@@ -224,6 +262,12 @@ input,select,textarea,.input{font-size:16px!important}
           <div><span>노쇼율</span><b class="num" id="mNsr">0</b></div>
           <div><span>매출(방문 기준)</span><b class="num" id="mRev">0</b></div>
         </div>
+        <div class="panel locked" id="profitPanel"><header><h2>메뉴별 마진 · 이번 달 예상 수익</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px">
+          <div class="pfsum" id="pfSum"></div>
+          <div class="grid3"><div class="field"><label for="pfRent">월세(원)</label><input class="input num" id="pfRent" inputmode="numeric" placeholder="0"></div><div class="field"><label for="pfTax">세금 예상(원)</label><input class="input num" id="pfTax" inputmode="numeric" placeholder="0"></div><div class="field"><label for="pfEtc">기타 고정비(원)</label><input class="input num" id="pfEtc" inputmode="numeric" placeholder="0"></div></div>
+          <div class="wrapx"><table class="table mtab"><thead><tr><th>메뉴</th><th>건수</th><th>판매가</th><th>원가</th><th>마진 합계</th></tr></thead><tbody id="pfRows"></tbody></table></div>
+          <p class="note">· 건수는 이번 달 방문 완료 + 남은 예약(취소·노쇼 제외)이에요. 예약이 들어오면 자동으로 올라가요.<br>· 메뉴를 누르면 이번 달 시술 이력(고객명·날짜)이 보여요. 원가(재료비)는 숫자만 넣으면 저장돼요.<br>· 예상 수익 = 마진 합계 − 월세 − 세금 − 기타 고정비. 카드 수수료·인건비는 기타에 넣어 주세요.</p>
+        </div><div class="veil" id="pfVeil"><button class="btn primary" data-open="plans">PRO로 이번 달 수익 보기</button></div></div>
         <div class="panel locked" id="mixPanel"><header><h2>메뉴별 매출</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px" id="mix"></div><div class="veil" id="mixVeil"><button class="btn primary" data-open="plans">PRO로 자세히 보기</button></div></div>
       </section>
       <section class="page" id="p-settings">
@@ -237,8 +281,26 @@ input,select,textarea,.input{font-size:16px!important}
           <div class="panel"><header><h2>메뉴</h2><div class="grow"></div><button class="btn sm" id="addSvc">＋ 메뉴 추가</button></header><div class="wrapx"><table class="table"><thead><tr><th>이름</th><th>가격(원)</th><th>걸리는 시간(분)</th><th>평균 시술 주기(주)</th><th></th></tr></thead><tbody id="svcT"></tbody></table></div>
             <div class="foot">걸리는 시간은 예약이 겹치지 않게 막는 데 쓰여요. 고치면 바로 저장돼요.</div></div>
           <div class="panel"><header><h2>요금제</h2></header><div style="padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div id="planNow" style="flex:1"></div><button class="btn" data-open="plans">요금제 보기</button></div></div>
+          <div class="panel"><header><h2>백업</h2><div class="grow"></div><span class="pro">PRO</span></header><div style="padding:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><p style="flex:1;min-width:200px;font-size:14px;color:var(--muted)">손님·예약·메뉴 기록을 파일로 저장해 두고, 휴대폰을 바꾸거나 기록이 지워졌을 때 다시 불러와요.</p><button class="btn" id="bkSave">파일로 백업</button><button class="btn" id="bkLoad">백업 불러오기</button><input type="file" id="bkFile" accept=".json,application/json" hidden></div></div>
           <div class="panel"><header><h2>견본 초기화</h2></header><div style="padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><p style="flex:1;font-size:14px;color:var(--muted)">모든 기록을 지우고 처음 실행 화면부터 다시 시작해요.</p><button class="btn danger" id="resetDemo">처음부터 다시</button></div></div>
         </div>
+      </section>
+      <section class="page" id="p-tools">
+        <div class="topbar"><div><h1>사장님 도구</h1><div class="date">가게 운영할 때 자주 하는 계산, 여기서 바로 해요</div></div></div>
+        <div class="tools" id="toolList"></div>
+        <div class="panel calc" id="calc-wage"><header><h2>알바 급여 · 주휴수당 계산기</h2></header><div class="body" style="padding:16px">
+          <div class="field"><label>시급 기준</label><div class="seg" id="wYear"><button type="button" data-y="2026">2026년</button><button type="button" data-y="2027">2027년</button><button type="button" data-y="x">직접</button></div></div>
+          <div class="grid2"><div class="field"><label for="wRate">시급(원)</label><input class="input num" id="wRate" inputmode="numeric"></div><div class="field"><label for="wHours">하루 근무 시간</label><input class="input num" id="wHours" inputmode="decimal" value="5"></div></div>
+          <div class="field"><label for="wDays">일주일 근무 일수</label><input class="input num" id="wDays" inputmode="numeric" value="5"></div>
+          <div class="res" id="wRes"></div>
+          <p class="note">· 주휴수당은 일주일 소정근로시간이 15시간 이상이고, 정한 근무일을 모두 나왔을 때 받아요. 40시간을 넘는 부분은 주휴수당 계산에 넣지 않아요.<br>· 한 달 금액은 한 달 평균 4.345주로 계산한 예상치예요. 세금·4대보험 공제 전 금액이에요.<br>· 최저임금: 2026년 10,320원, 2027년 10,700원(고용노동부 고시 제2026-60호, 2027년 1월 1일부터).</p>
+        </div></div>
+        <div class="panel calc" id="calc-margin"><header><h2>메뉴별 원가 · 마진</h2><div class="grow"></div><button class="btn sm" id="mAdd">＋ 메뉴 추가</button></header><div class="body" style="padding:16px">
+          <div class="grid2"><div class="field"><label for="mTarget">목표 원가율(%)</label><input class="input num" id="mTarget" inputmode="decimal" value="30"></div><div class="field" style="display:flex;align-items:flex-end"><label style="display:flex;gap:8px;align-items:center;font-size:14px;font-weight:500"><input type="checkbox" id="mVat" checked> 판매가에 부가세 10% 포함</label></div></div>
+          <div class="msum" id="mSum"></div>
+          <div class="wrapx"><table class="table mtab"><thead><tr><th>메뉴</th><th>판매가</th><th>원가</th><th>원가율</th><th>마진</th></tr></thead><tbody id="mRows"></tbody></table></div>
+          <p class="note">· 설정 &gt; 메뉴에 등록한 메뉴가 그대로 나와요. 원가(재료비)만 넣으면 저장돼요. 원가율이 높은 메뉴가 위로 올라와요.<br>· 목표 원가율을 넘는 메뉴는 주황색으로 표시하고, 목표에 맞추려면 얼마에 팔아야 하는지 알려 드려요.<br>· 부가세 포함 가격이면 실제 매출은 판매가 ÷ 1.1로 계산해요. 인건비·임대료·카드·배달 수수료는 빠진 금액이에요.</p>
+        </div></div>
       </section>
     </main>
   </div>
@@ -249,6 +311,7 @@ input,select,textarea,.input{font-size:16px!important}
   <button data-p="revisit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>재방문<span class="badge" data-badge="revisit"></span></button>
   <button data-p="customers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/></svg>손님</button>
   <button data-p="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>이번 달</button>
+  <button data-p="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>도구</button>
   <button data-p="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>설정</button>
 </nav>
 
@@ -277,6 +340,9 @@ input,select,textarea,.input{font-size:16px!important}
   <div class="body"><div class="msg" id="msBody"></div><p class="hint" id="msHint"></p></div>
   <div class="acts"><button class="btn" data-close>닫기</button><button class="btn primary" id="msCopy">문구 복사</button></div>
 </div></div>
+<div class="sheet-bg" id="sh-pin"><div class="sheet" role="dialog" aria-labelledby="pinT"><header><h3 id="pinT">비밀번호 확인</h3><button class="btn sm" data-close>닫기</button></header>
+  <div class="body"><p class="hint" id="pinMsg"></p><div class="field"><label for="pinIn">비밀번호 (숫자 4자리)</label><input class="input num" id="pinIn" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"></div></div>
+  <div class="acts"><button class="btn" data-close>취소</button><button class="btn primary" id="pinOk">확인</button></div></div></div>
 <div class="sheet-bg" id="sh-plans"><div class="sheet" role="dialog" aria-labelledby="plT"><header><h3 id="plT">요금제</h3><button class="btn sm" data-close>닫기</button></header>
   <div class="body">
     <div class="plans">
@@ -492,7 +558,7 @@ $('#q').oninput=render;
 $('#plPro').onclick=()=>{D.pro=true;save();closeAll();render();toast('PRO 체험을 켰어요 (견본, 결제 없음)')};
 $('#plFree').onclick=()=>{D.pro=false;save();closeAll();render();toast('무료로 쓰고 있어요')};
 // ── 처음 실행 설정 ──
-const ICON={hair:'✂️',nail:'💅',skin:'🧴',lash:'👁️',pilates:'🧘',pet:'🐶',etc:'✨'};
+const ICON={hair:'✂️',nail:'💅',skin:'🧴',lash:'<span class="lash-ic"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15c3.5 5 8 7.5 12 7.5S24.5 20 28 15"/><path d="M7.5 18.6 5 22M11.5 21 10 25M16 22.5V26.5M20.5 21l1.5 4M24.5 18.6 27 22"/></svg></span>',pilates:'🧘',pet:'🐶',etc:'✨'};
 let W={step:0,ind:null,g:null,name:'',open:'10:00',close:'20:00',menu:[],samples:true};
 const hasG=k=>!!GMENU[k];
 function wizOpen(){wizDir=0;W={step:0,ind:null,g:null,name:'',open:'10:00',close:'20:00',menu:[],samples:true};$('#wiz').classList.add('show');wizDraw()}
@@ -503,19 +569,20 @@ function wizDraw(){const st=W.step;{const B0=document.getElementById('wzBody');B
     B.querySelector('.cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;W.ind=b.dataset.k;W.g=null;W.menu=presetMenu(W.ind,null);B.querySelectorAll('.cat').forEach(x=>x.classList.toggle('on',x===b))}}
   else if(st===1){B.innerHTML='<p class="kicker">2 / 5</p><h2 id="wzT">주로 어떤 손님이 오세요?</h2><p class="lead">고르신 손님에 맞춰 기본 메뉴를 채워 드려요. 다음 단계에서 얼마든지 고칠 수 있어요.</p><div class="cats">'+['f','m','a'].map(k=>'<button type="button" class="cat '+(W.g===k?'on':'')+'" data-g="'+k+'"><span class="ic">'+({f:'👩',m:'👨',a:'👫'}[k])+'</span><span><b>'+GLABEL[k]+'</b><small>'+presetMenu(W.ind,k).slice(0,3).map(x=>x.name).join('·')+'</small></span></button>').join('')+'</div>';
     B.querySelector('.cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;W.g=b.dataset.g;W.menu=presetMenu(W.ind,W.g);B.querySelectorAll('.cat').forEach(x=>x.classList.toggle('on',x===b))}}
-  else if(st===2){const hrs=[];for(let x=6;x<=24;x++)hrs.push(pad(x)+':00');B.innerHTML='<p class="kicker">3 / 5</p><h2 id="wzT">가게 이름과 영업시간을 알려 주세요</h2><p class="lead">손님께 보내는 문구 맨 앞에 가게 이름이 들어가요.</p><div style="display:flex;flex-direction:column;gap:14px"><div class="field"><label for="wzName">가게 이름</label><input class="input" id="wzName" placeholder="예: 하늘 헤어" value="'+esc(W.name)+'"></div><div class="grid2"><div class="field"><label for="wzOpen">문 여는 시간</label><select id="wzOpen">'+hrs.map(x=>'<option '+(x===W.open?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="field"><label for="wzClose">문 닫는 시간</label><select id="wzClose">'+hrs.map(x=>'<option '+(x===W.close?'selected':'')+'>'+x+'</option>').join('')+'</select></div></div></div>';setTimeout(()=>{const x=document.getElementById('wzName');if(x)x.focus()},50)}
+  else if(st===2){const hrs=[];for(let x=6;x<=24;x++)hrs.push(pad(x)+':00');B.innerHTML='<p class="kicker">3 / 5</p><h2 id="wzT">가게 이름과 영업시간을 알려 주세요</h2><p class="lead">손님께 보내는 문구 맨 앞에 가게 이름이 들어가요.</p><div style="display:flex;flex-direction:column;gap:14px"><div class="field"><label for="wzName">가게 이름</label><input class="input" id="wzName" placeholder="예: 하늘 헤어" value="'+esc(W.name)+'"></div><div class="grid2"><div class="field"><label for="wzOpen">문 여는 시간</label><select id="wzOpen">'+hrs.map(x=>'<option '+(x===W.open?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="field"><label for="wzClose">문 닫는 시간</label><select id="wzClose">'+hrs.map(x=>'<option '+(x===W.close?'selected':'')+'>'+x+'</option>').join('')+'</select></div></div><div class="grid2"><div class="field"><label for="wzPin">비밀번호 (숫자 4자리)</label><input class="input num" id="wzPin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••" value="'+esc(W.pin||'')+'"></div><div class="field"><label for="wzPin2">한 번 더</label><input class="input num" id="wzPin2" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••" value="'+esc(W.pin||'')+'"></div></div><p class="hint" style="margin:-4px 0 0">기록을 지우거나 처음 설정을 다시 할 때 물어봐요. 잊어버리지 않게 적어 두세요.</p></div>';setTimeout(()=>{const x=document.getElementById('wzName');if(x)x.focus()},50)}
   else if(st===3){B.innerHTML='<p class="kicker">4 / 5</p><h2 id="wzT">어떤 시술·상품이 있나요?</h2><p class="lead">이름과 금액을 우리 가게에 맞게 고쳐 주세요. 걸리는 시간은 예약이 겹치지 않게, 평균 시술 주기는 다시 올 때가 된 손님을 찾는 데 쓰여요.</p><div class="menu" id="wzMenu"></div><button class="btn" id="wzAdd" style="margin-top:10px">＋ 시술·상품 추가</button>';wizMenu();$('#wzAdd').onclick=()=>{wizRead();W.menu.push({name:'',price:0,dur:30,cycle:4});wizMenu();const n=$$('#wzMenu .nm input');n[n.length-1].focus()}}
   else{const v=IND[W.ind];B.innerHTML='<p class="kicker">5 / 5</p><h2 id="wzT">준비됐어요!</h2><p class="lead"><b>'+esc(W.name)+'</b> · '+v.label+(W.g?' · '+GLABEL[W.g]:'')+' · '+W.open+'–'+W.close+' · 시술·상품 '+W.menu.length+'개</p><label class="opt"><input type="checkbox" id="wzSample" '+(W.samples?'checked':'')+'><span><b>예시 손님을 넣어서 둘러볼게요</b><br><span style="color:var(--muted)">가상의 손님 11명과 예약이 들어가요. 실제로 쓰실 때는 설정에서 ‘처음 설정 다시 하기’로 비우면 돼요.</span></span></label>'}
 }
 function wizMenu(){$('#wzMenu').innerHTML=W.menu.map((m,i)=>'<div class="mrow" data-i="'+i+'"><div class="nm"><label>이름</label><input class="input" data-f="name" value="'+esc(m.name)+'" placeholder="예: 컷"></div><div><label>금액(원)</label><input class="input num" type="number" min="0" step="1000" data-f="price" value="'+m.price+'"></div><div><label>시간(분)</label><input class="input num" type="number" min="10" step="10" data-f="dur" value="'+m.dur+'"></div><div><label>평균 시술 주기(주)</label><input class="input num" type="number" min="1" data-f="cycle" value="'+m.cycle+'"></div><button class="btn sm danger" data-del="'+i+'" aria-label="삭제" style="align-self:end">삭제</button></div>').join('');
   $('#wzMenu').onclick=e=>{const b=e.target.closest('[data-del]');if(!b)return;wizRead();if(W.menu.length<=1){toast('하나 이상은 있어야 해요');return}W.menu.splice(+b.dataset.del,1);wizMenu()}}
 function wizRead(){$$('#wzMenu .mrow').forEach(r=>{const m=W.menu[+r.dataset.i];r.querySelectorAll('input').forEach(i=>{const f=i.dataset.f;m[f]=f==='name'?i.value.trim():Math.max({price:0,dur:10,cycle:1}[f],Math.round(+i.value||0))})})}
-$('#wzBack').onclick=()=>{if(W.step===3)wizRead();if(W.step===2){W.name=$('#wzName').value.trim();}let n=Math.max(0,W.step-1);if(n===1&&!hasG(W.ind))n=0;wizGo(n)};
+$('#wzBack').onclick=()=>{if(W.step===3)wizRead();if(W.step===2){W.name=$('#wzName').value.trim();W.pin=$('#wzPin').value;}let n=Math.max(0,W.step-1);if(n===1&&!hasG(W.ind))n=0;wizGo(n)};
 $('#wzNext').onclick=()=>{const st=W.step;
   if(st===0&&!W.ind){toast('업종을 하나 골라 주세요');return}
   if(st===0&&!hasG(W.ind)){wizGo(2);return}
   if(st===1&&!W.g){toast('손님 유형을 하나 골라 주세요');return}
-  if(st===2){W.name=$('#wzName').value.trim();W.open=$('#wzOpen').value;W.close=$('#wzClose').value;if(!W.name){toast('가게 이름을 넣어 주세요');return}if(toMin(W.close)<=toMin(W.open)){toast('닫는 시간이 여는 시간보다 늦어야 해요');return}}
+  if(st===2){W.name=$('#wzName').value.trim();W.open=$('#wzOpen').value;W.close=$('#wzClose').value;if(!W.name){toast('가게 이름을 넣어 주세요');return}if(toMin(W.close)<=toMin(W.open)){toast('닫는 시간이 여는 시간보다 늦어야 해요');return}
+    const p1=$('#wzPin').value,p2=$('#wzPin2').value;if(!/^\d{4}$/.test(p1)){toast('비밀번호는 숫자 4자리로 넣어 주세요');return}if(p1!==p2){toast('비밀번호 두 칸이 서로 달라요');return}W.pin=p1}
   if(st===3){wizRead();W.menu=W.menu.filter(m=>m.name);if(!W.menu.length){toast('시술·상품을 하나 이상 넣어 주세요');wizMenu();return}const names=W.menu.map(m=>m.name);if(new Set(names).size!==names.length){toast('같은 이름이 두 번 들어갔어요');wizMenu();return}}
   if(st===4){W.samples=$('#wzSample').checked;wizFinish();return}
   wizGo(W.step+1)};
@@ -523,11 +590,76 @@ function wizFinish(){const svc=W.menu.map(m=>({id:uid(),...m}));let C=[],A=[];
   if(W.samples){const s=seed();const map={};s.svc.forEach((x,i)=>map[x.name]=svc[i%svc.length]);C=s.C.map((c,ci)=>({...c,sex:W.g==='m'?'m':W.g==='f'?'f':['f','m','f','f','m','f','m','f','m','f','m'][ci%11],hist:c.hist.map(h=>({date:h.date,svc:map[h.svc].name})),pass:IND[W.ind].mode==='pass'?{left:[8,3,1,6,10,2,5,0,4,7,9][s.C.indexOf(c)%11],exp:ds(day([40,12,5,60,30,9,25,-3,20,45,50][s.C.indexOf(c)%11]))}:null}));
     A=s.A.filter(a=>{const m=map[a.svc];return toMin(a.time)>=toMin(W.open)&&toMin(a.time)+m.dur<=toMin(W.close)}).map(a=>{const m=map[a.svc];return {...a,svc:m.name,price:m.price,dur:m.dur}});
     const ok=[];A.forEach(a=>{if(!ok.some(b=>b.date===a.date&&b.status!=='cancel'&&toMin(b.time)<toMin(a.time)+a.dur&&toMin(a.time)<toMin(b.time)+b.dur))ok.push(a)});A=ok}
-  D={gender:W.g||'a',ind:W.ind,name:W.name,open:W.open,close:W.close,svc,C,A,pro:false,setup:true};save();$('#wiz').classList.remove('show');go('today');render();toast(W.name+' 준비가 끝났어요!')}
-$('#redoSetup').onclick=()=>wizOpen();
-$('#resetDemo').onclick=()=>{localStorage.removeItem(KEY);D=seed();D.setup=false;save();wizOpen()};
+  D={gender:W.g||'a',ind:W.ind,name:W.name,open:W.open,close:W.close,svc,C,A,pro:false,setup:true,pin:pinHash(W.pin)};save();$('#wiz').classList.remove('show');go('today');render();toast(W.name+' 준비가 끝났어요!')}
+$('#redoSetup').onclick=()=>askPin('처음 설정을 다시 하려면 비밀번호를 넣어 주세요',()=>wizOpen());
+$('#resetDemo').onclick=()=>askPin('모든 기록을 지우려면 비밀번호를 넣어 주세요',()=>{localStorage.removeItem(KEY);D=seed();D.setup=false;save();wizOpen()});
 render();
 if(!D.setup)wizOpen();
+
+// ---- 사장님 도구 (11-19) ----
+const TOOLS={
+  wage:{ic:'🧾',name:'알바 급여 · 주휴수당',sub:'시급·근무 시간만 넣으면 주휴수당과 한 달 급여까지',ok:1},
+  margin:{ic:'🧮',name:'메뉴별 마진 · 예상 수익',sub:'이번 달 화면에서 메뉴별 마진과 월세·세금 뺀 예상 수익까지 (PRO)',ok:1,go:'stats'},
+  delivery:{ic:'🛵',name:'배달앱 수수료 · 실수령',sub:'배달 주문 한 건에 실제로 남는 돈'},
+  vat:{ic:'📑',name:'부가세 예상',sub:'간이·일반과세자 부가세 미리 보기'},
+  insure:{ic:'🛡️',name:'4대보험 · 퇴직금',sub:'직원 뽑을 때 드는 돈 미리 보기'}
+};
+const TOOL_ORDER={food:['delivery','margin','wage','vat','insure'],_:['wage','vat','margin','insure','delivery']};
+function renderTools(){const ord=TOOL_ORDER[D&&D.ind==='food'?'food':'_'];
+  $('#toolList').innerHTML=ord.map(k=>{const t=TOOLS[k];return '<button type="button" class="tool'+(t.ok?'':' soon')+'" data-tool="'+k+'"><span class="ti">'+t.ic+'</span><b>'+t.name+'</b><small>'+t.sub+'</small><span class="tag">'+(t.ok?'바로 쓰기':'준비 중')+'</span></button>'}).join('');
+  $$('#toolList .tool').forEach(b=>b.onclick=()=>{const k=b.dataset.tool;if(!TOOLS[k].ok){toast('곧 열어 드릴게요');return}if(TOOLS[k].go){go(TOOLS[k].go);setTimeout(()=>$('#profitPanel').scrollIntoView({behavior:'smooth'}),100);return}$$('.calc').forEach(c=>c.classList.toggle('on',c.id==='calc-'+k));$('#calc-'+k).scrollIntoView({behavior:'smooth',block:'start'})});}
+function setYear(y){$$('#wYear button').forEach(b=>b.classList.toggle('on',b.dataset.y===y));if(y==='2026')$('#wRate').value=10320;if(y==='2027')$('#wRate').value=10700;if(y==='x')$('#wRate').focus();calcWage()}
+function calcWage(){const r=+$('#wRate').value||0,h=+$('#wHours').value||0,d=+$('#wDays').value||0,wk=h*d;
+  const ju=wk>=15?Math.min(wk,40)/40*8*r:0,week=r*wk+ju,mon=week*4.345;
+  $('#wRes').innerHTML='<div><span>일주일 근무</span><b class="num">'+(Math.round(wk*10)/10)+'시간</b></div><div><span>주휴수당(주)</span><b class="num">'+(wk>=15?won(ju):'해당 없음')+'</b></div><div><span>일주일 급여</span><b class="num">'+won(week)+'</b></div><div><span>한 달 예상</span><b class="num">'+won(mon)+'</b></div>'}
+function calcMargin(){const t=+$('#mTarget').value||0,v=$('#mVat').checked;
+  const rows=D.svc.map(x=>{const net=v?x.price/1.1:x.price,c=+x.cost||0,rate=net&&c?c/net*100:null;return {x,net,c,rate,m:net-c,rec:t&&c?Math.ceil(c/(t/100)*(v?1.1:1)/100)*100:0}});
+  rows.sort((p,q)=>(q.rate??-1)-(p.rate??-1));
+  const done=rows.filter(r=>r.rate!=null),avg=done.length?done.reduce((s,r)=>s+r.rate,0)/done.length:0,over=done.filter(r=>r.rate>t).length;
+  $('#mSum').innerHTML='<div><span>원가 넣은 메뉴</span><b class="num">'+done.length+' / '+rows.length+'</b></div><div><span>평균 원가율</span><b class="num">'+(done.length?(Math.round(avg*10)/10)+'%':'-')+'</b></div><div><span>목표 넘는 메뉴</span><b class="num">'+over+'개</b></div>';
+  if(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#mRows'))return;
+  $('#mRows').innerHTML=rows.map(r=>'<tr class="'+(r.rate!=null&&r.rate>t?'over':'')+'"><td>'+esc(r.x.name)+'</td><td class="num">'+won(r.x.price)+'</td><td><input class="input num" inputmode="numeric" data-cost="'+r.x.id+'" value="'+(r.c||'')+'" placeholder="0"></td><td class="num">'+(r.rate==null?'-':(Math.round(r.rate*10)/10)+'%')+'</td><td class="num">'+(r.rate==null?'-':won(r.m))+(r.rate!=null&&r.rate>t?'<small>목표면 '+won(r.rec)+'</small>':'')+'</td></tr>').join('');}
+$$('#wYear button').forEach(b=>b.onclick=()=>setYear(b.dataset.y));
+['#wRate','#wHours','#wDays'].forEach(q=>$(q).oninput=()=>{if(q==='#wRate')$$('#wYear button').forEach(b=>b.classList.toggle('on',b.dataset.y==='x'));calcWage()});
+['#mTarget','#mVat'].forEach(q=>{$(q).oninput=calcMargin;$(q).onchange=calcMargin});
+$('#mRows').addEventListener('change',e=>{const i=e.target;if(!i.dataset.cost)return;const x=D.svc.find(y=>y.id===i.dataset.cost);if(!x)return;x.cost=Math.max(0,+i.value||0);save();i.blur();calcMargin()});
+$('#mRows').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur()});
+$('#mAdd').onclick=()=>{go('settings');setTimeout(()=>{const b=$('#addSvc');if(b)b.click()},200);toast('설정의 메뉴에서 추가한 뒤 원가를 넣어 주세요')};
+setYear(new Date()>=new Date('2027-01-01T00:00')?'2027':'2026');
+{const _go=go;go=function(p){_go(p);if(p==='tools'){renderTools();calcMargin()}}; $$('[data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));}
+
+// ---- 비밀번호·백업 (11-19) ----
+function pinHash(p){if(!p)return '';let h=5381;const t='dg:'+p;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))>>>0;return 'h'+h.toString(36)}
+let pinNext=null;
+function askPin(msg,fn){if(!D||!D.pin){fn();return}pinNext=fn;$('#pinMsg').textContent=msg;$('#pinIn').value='';open('pin');setTimeout(()=>$('#pinIn').focus(),80)}
+$('#pinOk').onclick=()=>{if(pinHash($('#pinIn').value)!==D.pin){toast('비밀번호가 맞지 않아요');$('#pinIn').value='';return}closeAll();const f=pinNext;pinNext=null;if(f)f()};
+$('#pinIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#pinOk').click()});
+$('#bkSave').onclick=()=>{if(!D.pro){open('plans');toast('백업은 PRO 기능이에요');return}
+  const blob=new Blob([JSON.stringify({app:'danggolnote',v:1,at:new Date().toISOString(),data:D})],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='단골노트_백업_'+ds(day(0))+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('백업 파일을 저장했어요')};
+$('#bkLoad').onclick=()=>{if(!D.pro){open('plans');toast('백업은 PRO 기능이에요');return}askPin('백업을 불러오면 지금 기록이 바뀌어요. 비밀번호를 넣어 주세요',()=>$('#bkFile').click())};
+$('#bkFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(j.app!=='danggolnote'||!j.data||!Array.isArray(j.data.svc))throw 0;D=j.data;save();render();go('today');toast('백업을 불러왔어요')}catch(_){toast('단골노트 백업 파일이 아니에요')}e.target.value=''};r.readAsText(f)};
+
+// ---- 이번 달 메뉴별 마진·예상 수익 (11-19, PRO) ----
+let pfOpen=null;
+function renderProfit(){D.cost=D.cost||{rent:0,tax:0,etc:0};
+  const t=ds(day(0)),mon=t.slice(0,7);
+  const ma=D.A.filter(a=>a.date.slice(0,7)===mon&&a.status!=='cancel'&&a.status!=='noshow'&&(a.status==='done'||a.date>=t));
+  const by={};ma.forEach(a=>{(by[a.svc]=by[a.svc]||{done:0,plan:0,price:0,list:[]});const g=by[a.svc];if(a.status==='done')g.done++;else g.plan++;g.price+=a.price;g.list.push(a)});
+  const names=[...new Set([...D.svc.map(x=>x.name),...Object.keys(by)])];
+  const rows=names.map(n=>{const sv=D.svc.find(x=>x.name===n),g=by[n]||{done:0,plan:0,price:0,list:[]},cnt=g.done+g.plan,cost=sv?(+sv.cost||0):0;return {n,sv,g,cnt,cost,rev:g.price,mg:g.price-cost*cnt}}).sort((a,b)=>b.mg-a.mg);
+  const rev=rows.reduce((s,r)=>s+r.rev,0),mat=rows.reduce((s,r)=>s+r.cost*r.cnt,0),mg=rev-mat,fix=(+D.cost.rent||0)+(+D.cost.tax||0)+(+D.cost.etc||0),net=mg-fix;
+  $('#pfSum').innerHTML='<div class="big"><span>이번 달 예상 수익</span><b class="num">'+won(net)+'</b></div><div><span>예상 매출</span><b class="num">'+won(rev)+'</b></div><div><span>재료비(원가)</span><b class="num">'+won(mat)+'</b></div><div><span>마진 합계</span><b class="num">'+won(mg)+'</b></div><div><span>월세·세금·기타</span><b class="num">'+won(fix)+'</b></div>';
+  ['rent','tax','etc'].forEach(k=>{const el=$('#pf'+k[0].toUpperCase()+k.slice(1));if(document.activeElement!==el)el.value=D.cost[k]||''});
+  if(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#pfRows'))return;
+  const cname=id=>{const c=D.C.find(x=>x.id===id);return c?c.name:'(지운 손님)'};
+  $('#pfRows').innerHTML=rows.map(r=>'<tr class="pf" data-pf="'+esc(r.n)+'"><td><b>'+esc(r.n)+'</b></td><td class="num cnt">'+r.cnt+'건<small>완료 '+r.g.done+' · 예정 '+r.g.plan+'</small></td><td class="num">'+(r.sv?won(r.sv.price):'-')+'</td><td>'+(r.sv?'<input class="input num" inputmode="numeric" data-pfcost="'+r.sv.id+'" value="'+(r.cost||'')+'" placeholder="0">':'-')+'</td><td class="num"><b>'+won(r.mg)+'</b></td></tr>'+(pfOpen===r.n?'<tr class="pfhist"><td colspan="5">'+(r.g.list.length?r.g.list.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(a=>esc(cname(a.cid))+' / '+a.date.slice(5).replace('-','.')+(a.status==='done'?'':' (예정)')).join('<br>'):'이번 달 시술 이력이 없어요')+'</td></tr>':'')).join('');
+  $('#pfVeil').style.display=D.pro?'none':'grid';}
+$('#pfRows').addEventListener('click',e=>{if(e.target.closest('input'))return;const tr=e.target.closest('tr.pf');if(!tr)return;pfOpen=pfOpen===tr.dataset.pf?null:tr.dataset.pf;renderProfit()});
+$('#pfRows').addEventListener('change',e=>{const i=e.target;if(!i.dataset.pfcost)return;const x=D.svc.find(y=>y.id===i.dataset.pfcost);if(!x)return;x.cost=Math.max(0,+i.value||0);save();i.blur();renderProfit()});
+$('#pfRows').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur()});
+[['#pfRent','rent'],['#pfTax','tax'],['#pfEtc','etc']].forEach(([q,k])=>{$(q).onchange=()=>{D.cost=D.cost||{};D.cost[k]=Math.max(0,+$(q).value||0);save();renderProfit()}});
+{const _r=render;render=function(){_r();try{renderProfit()}catch(e){}};renderProfit();}
 </script>
 <script data-goatcounter="https://danggolnote.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
